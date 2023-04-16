@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_16_151433) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_16_174257) do
+  create_table "bonds", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "friend_id"], name: "index_bonds_on_user_id_and_friend_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "first_name"
@@ -23,4 +32,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_151433) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "bonds", "users"
+  add_foreign_key "bonds", "users", column: "friend_id"
 end
